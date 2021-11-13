@@ -6,11 +6,11 @@ export default function Header () {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button}>
-        <FontAwesome5 name="brain" size={25} color='red'></FontAwesome5>
+        <FontAwesome5 name="brain" size={25} color="#ec5288"></FontAwesome5>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}>
-        <FontAwesome name="user" size={25} color="red"></FontAwesome>
+        <FontAwesome name="user" size={25} color="#ec5288"></FontAwesome>
       </TouchableOpacity>
     </View>
   )

@@ -1,15 +1,19 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Animated, StyleSheet, Text, TouchableWithoutFeedback, View, } from 'react-native'
+import { PanGestureHandler, RectButton } from 'react-native-gesture-handler'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { RectButton } from 'react-native-gesture-handler'
 import Card from '../Card'
 
-export default function Swipes ({cards, currentIndex, handleLeftSwipe}) {
+export default function Swipes ({ cards, cardIndex, handleLeftSwipe, handleRightSwipe }) {
+  
+  const [cardSide, setCardSide] = useState(true);
+  const [easySwipe, setEasySwipe] = useState(false);
+  const [hardSwipe, setHardSwipe] = useState(false);
   
   const renderLeftActions = () => {
     return (
       <RectButton style={styles.container}>
-        <Card card={cards[currentIndex + 1]}></Card>
+        <Card card={cards[cardIndex + 1]}></Card>
       </RectButton>
     )
   }
@@ -17,9 +21,13 @@ export default function Swipes ({cards, currentIndex, handleLeftSwipe}) {
   const renderRightActions = () => {
     return (
       <RectButton style={styles.container}>
-        <Card card={cards[currentIndex + 1]}></Card>
+        <Card card={cards[cardIndex + 1]}></Card>
       </RectButton>
     )
+  }
+
+  const flipCard = () => {
+    console.log('FLIP pressed')
   }
   
   return (
@@ -29,10 +37,35 @@ export default function Swipes ({cards, currentIndex, handleLeftSwipe}) {
       rightThreshold={10}
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
-      onSwipeableLeftOpen={handleLeftSwipe}
+      onSwipeableLeftOpen={() => {
+        setEasySwipe(false)
+        handleLeftSwipe()
+      }}
+      onSwipeableRightOpen={() => {
+        setHardSwipe(false)
+        handleRightSwipe()
+      }}
+      onSwipeableLeftWillOpen={() => setEasySwipe(true)}
+      onSwipeableRightWillOpen={() => setHardSwipe(true)}
     >
-      <Card card={cards[currentIndex]}></Card>
+      <Card
+        card={cards[cardIndex]}
+        easySwipe={easySwipe}
+        hardSwipe={hardSwipe}
+      >
+      </Card>
     </Swipeable>
+
+    // <PanGestureHandler>
+    //           <Card
+    //     card={cards[cardIndex]}
+    //     easySwipe={easySwipe}
+    //     hardSwipe={hardSwipe}
+    //   >
+    //   </Card>
+    // </PanGestureHandler>
+    
+    
   )
 }
 

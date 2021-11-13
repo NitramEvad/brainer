@@ -1,16 +1,34 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
-export default function Card({card}) {
+export default function Card({card, easySwipe, hardSwipe}) {
 
 console.log('CARD ', card)
 console.log('URI ', card.uri)
   return (
     <View style={styles.card}>
-      {/* TODO: Not working for some reason */}
-      {/* <Image source={card.uri} style={styles.backgroundImage} /> */}
+      {/* TODO: Cycle paper type */}
       <Image source={require('../../assets/paper3.jpg')} style={styles.backgroundImage} />
+
+      {easySwipe && (<View style={styles.easyBox}>
+        <Text style={styles.boxText}>EASY</Text>
+      </View>)}
+      
+      <View style={styles.easyBox}>
+        <Text style={styles.easyBoxText}>EASY</Text>
+      </View>
+
+      {hardSwipe && (<View style={styles.hardBox}>
+        <Text style={styles.hardBoxText}>HARD</Text>
+      </View>)}
+
       <View style={styles.textContent}>
+
+        {/* TODO: testing tap */}
+        {/* {face && (<View><Text>FRONT</Text></View>)}
+        {!face && (<View><Text>BACK</Text></View>)} */}
+        
         <View style={styles.questionMain}>
           <Text style={[styles.textMain, styles.textShadow]}>{card.front_field_main} </Text>
         </View>
@@ -26,6 +44,7 @@ console.log('URI ', card.uri)
           <Text style={styles.pill}>Score: {card.score}</Text>
         </View>
         <View style={styles.counts}>
+          {/* TODO: shift to stop from being pushed off the bottom */}
           <Text style={styles.pill}>Easy: {card.count_easy}</Text>
           <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
           <Text style={styles.pill}>Hard: {card.count_hard}</Text>
@@ -36,23 +55,49 @@ console.log('URI ', card.uri)
   )
 }
 
+const cornerStyle = {
+  position: 'absolute',
+  top: 5,
+  padding: 8,
+  borderWidth: 4,
+  borderRadius: 10,
+  // backgroundColor: 'white',
+}
+
 const styles = StyleSheet.create({
   card: {
-
     alignItems: 'center',
     justifyContent: 'center',
-    // TODO: Shadow not currently working
-    // shadowColor: 'grey',
-    // shadowOpacity: 0.5,
-    // shadowRadius: 20,
-    // elevation: 10,
+    // TODO: add shadow
   },
+
+  easyBox: {
+    ...cornerStyle,
+    left: 5,
+    borderColor: '#6ee3b4',
+  },
+  hardBox: {
+    ...cornerStyle,
+    right: 40,
+    borderColor: '#ec5288',
+  },
+
+  easyBoxText: {
+    fontSize: 25,
+    color: '#6ee3b4',
+    fontWeight: 'bold',
+  },
+  hardBoxText: {
+    fontSize: 25,
+    color: '#ec5288',
+    fontWeight: 'bold',
+  },
+
   backgroundImage: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
     borderRadius: 20,
-    // opacity: 0.3,
   },
   textContent: {
     position: 'absolute',

@@ -1,21 +1,22 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function Footer() {
+export default function Footer(easyHandler, moderateHandler, hardHandler, againHandler) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <FontAwesome name="times" size={25} color="red"></FontAwesome>
+      <TouchableOpacity style={styles.button} onPress={hardHandler}>
+        <FontAwesome name="times" size={25} color="#ec5288" ></FontAwesome>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <FontAwesome name="plus" size={25} color="yellow"></FontAwesome>
+      <TouchableOpacity style={styles.button} onPress={againHandler}>
+        <FontAwesome name="undo" size={25} color="cyan"></FontAwesome>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <FontAwesome name="question" size={25} color="blue"></FontAwesome>
+
+      <TouchableOpacity style={styles.button} onPress={moderateHandler}>
+        <FontAwesome name="star" size={25} color="grey"></FontAwesome>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <FontAwesome name="times" size={25} color="green"></FontAwesome>
+      <TouchableOpacity style={styles.button} onPress={easyHandler}>
+        <FontAwesome name="heart" size={25} color="#6ee3b4" ></FontAwesome>
       </TouchableOpacity>
     </View>
   )

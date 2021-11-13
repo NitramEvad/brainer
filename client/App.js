@@ -10,7 +10,13 @@ import data from './data.js';
 
 
 export default function App () {
-  
+  const colorTheme = {
+    brainderRed: '#ec5288',
+    brainderGreen: '#6ee3b4',
+    brainderGrey: 'grey',
+    brainderBlue: 'blue',
+  }
+
   const [cards, setCards] = useState(data);
   const [cardIndex, setCardIndex] = useState(0);
   const [face, setFace] = useState('front');
@@ -20,19 +26,52 @@ export default function App () {
   async function fetchDeck () {
     console.log('fetchDeck function ran')
   }
-
-  // TODO: activate when connecting to database
   useEffect(() => {
     fetchDeck()
   },[])
 
   function handleLeftSwipe () {
-    console.log('LEFT SWIPE')
+    cards[cardIndex].times_viewed = 5;
+    updateCardDetails();
+    nextCard();
+  }
+  
+  function handleRightSwipe () {
+    cards[cardIndex].times_viewed = 20;
+    updateCardDetails();
+    nextCard();
+  }
+  
+  function updateCardDetails () {
+    cards[cardIndex].times_viewed += 1;
+    cards[cardIndex].last_viewed = Date.now();
+  }
+  // ENSURES A CARD WILL ALWAYS BE VISIBLE UNDER THE CURRENT ONE
+  function nextCard () {
+    let nextCard = cards.length - 2 === cardIndex ? 0 : cardIndex + 1;
+    console.table(cards)
+    setCardIndex(nextCard);
+  }
+  
+  function easyHandler () {
+    console.log('EASY');
+  }
+  
+  function moderateHandler () {
+    console.log('MODERATE');
   }
 
-  function swipeComplete () {
-    console.log('SWIPE COMPLETE')
-    // TODO: 
+  function hardHandler () {
+    console.log('HARD');
+  }
+
+  function againHandler () {
+    console.log('MODERATE');
+  }
+
+  function tapHandler () {
+    console.log('TAP');
+
   }
 
   return (
@@ -40,15 +79,29 @@ export default function App () {
       <Header />
       <View style={styles.cards}>
 
-        {/* {data.length > 1 && (
-          <Card card={cards[cardIndex+0]}/>
-        )} */}
+        {
+          // TODO: swap MAP for index generator
+          cards.map(
+            (card, index) =>
+              cardIndex === index &&
+              <Swipes
+                key={card._id}
+                cardIndex={cardIndex}
+                cards={cards}
+                handleLeftSwipe={handleLeftSwipe}
+                handleRightSwipe={handleRightSwipe}>
+              </Swipes>
 
-        {data.length > 1 && <Swipes currentIndex={cardIndex} cards={cards}></Swipes>
-          }
+          )}
+        
 
       </View>
-      <Footer />
+      <Footer
+        // easyHandler={easyHandler}
+        // moderateHandler={moderateHandler}
+        // hardHandler={hardHandler}
+        // againHandler={againHandler}
+      />
       <StatusBar style="auto" />
     </View>
   );
