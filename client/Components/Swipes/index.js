@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Animated, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
-import { PanGestureHandler, RectButton } from 'react-native-gesture-handler';
-// import Swipeable from 'react-native-gesture-handler/Swipeable';
-// import Card from '../Card';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
 import { COLORS } from '../../Constants/constants';
 
 
@@ -18,10 +16,10 @@ export default function Swipes ({ type }) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'hsla(0,0%,0%,0.2)'
+    borderRadius: 15,
     borderWidth: 6,
     paddingHorizontal: 15,
-    borderRadius: 15,
-    backgroundColor: 'rgba(0,0,0,0.2)'
   },
   text: {
     fontSize: 40,
