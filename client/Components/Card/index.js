@@ -1,10 +1,10 @@
-import { styles } from './styles'
+import { styles } from './styles';
 import React, {useCallback, useState, useEffect, } from 'react';
-import { Animated, Button, View, Text, Image } from 'react-native';
+import { Animated, View, Text, Image, } from 'react-native';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { LinearGradient } from 'expo-linear-gradient';
-import Swipes from '../Swipes'
+import Swipes from '../Swipes';
 
 //  TODO: IMPLEMENT
 import CardFlip from 'react-native-card-flip';
@@ -14,10 +14,10 @@ import data from '../../data';
 // TODO: MULTIPLE INVOCATIONS IS CAUSING ERRORS
 TimeAgo.addDefaultLocale(en);
 
-const timeAgo = new TimeAgo('en-US')
+const timeAgo = new TimeAgo('en-US');
 function lastViewedStr (timeStamp) {
   return timeAgo.format(Date.now() - (Date.now() - timeStamp))
-}
+};
 
 
 export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} ) {
@@ -25,6 +25,8 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   // CARD FLIP ACTION
   const [isFlipped, setIsFlipped] = useState(false);
     
+  // TODO: ON TAP OF CARD, FLIP QUESTION TEXT TO SHOW ANSWER TEXT
+  // TODO: BEFORE MOVING TO NEXT CARD SETISFLIPPED(FALSE) AGAIN
   function handleFlip () {
     console.log('FLIP clicked')
     setIsFlipped(isFlipped ? false : true)
@@ -129,9 +131,9 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
         </View>
       </View>
 
-        {
+        {/* {
           isFirst && showSwipes()
-        }
+        } */}
       
     </Animated.View>
 

@@ -47,8 +47,9 @@ export default function App () {
             x: directionX * 500,
             y: dy, 
           },
-          useNativeDriver: true,
+          useNativeDriver: false,
           friction: 5,
+          // TODO: REWORK
         }).start(removeTopCard)
       } else {
         Animated.spring(swipe, {
@@ -56,6 +57,7 @@ export default function App () {
             x: 0,
             y: 0,
           },
+          useNativeDriver: false,
           friction: 5,
         }).start();
       } 
@@ -67,7 +69,9 @@ export default function App () {
             x: directionY * 500,
             y: dy, 
           },
+          useNativeDriver: false,
           friction: 5,
+          // TODO: REWORK
         }).start(removeTopCard)
       } else {
         Animated.spring(swipe, {
@@ -75,21 +79,29 @@ export default function App () {
             x: 0,
             y: 0,
           },
-          useNativeDriver: true,
+          useNativeDriver: false,
           friction: 5,
         }).start();
       } 
     },
   });
-
+  
   // RMOVES CARD ON COMPLETE SWIPE
-  const removeTopCard = useCallback(() => { 
-    // TODO: UPDAE CARD DETAILS AND INDEX
-    setCards((prevState) => {
-      console.log('PREV: ', prevState)
-      prevState.slice(1)
-    })
-    
+
+  
+  const removeTopCard = () => {
+    // TODO: UPDATE CARD DETAILS AND INDEX
+    // TODO: RECEIVE DIRECTION OF DRAG/BUTTON-PRESS
+    // TODO: UPDATECARDDETAILS('EASY' ETC)
+    console.log('REMOVE TOPCARD RAN')
+    setCards((prevState) => prevState.slice(1))
+    swipe.setValue({ x: 0, y: 0 })
+  }
+
+  const removeTopCardOld = useCallback(() => { 
+    setCards((prevState) => 
+    prevState.slice(1)
+    )
     swipe.setValue({ x: 0, y: 0 })
   },[swipe])
   
@@ -97,15 +109,23 @@ export default function App () {
     Animated.timing(swipe.x, {
       toValue: direction * 500,
       duration: 600,
+      // TODO: REWORK
     }).start(removeTopCard)
   }, [removeTopCard, swipe.x])
-
+  
   const handleChoiceY = useCallback((direction) => {
     Animated.timing(swipe.y, {
       toValue: direction * 700,
       duration: 600,
+      // TODO: REWORK
     }).start(removeTopCard)
   }, [removeTopCard, swipe.y])
+  
+
+  const markCard = () => {
+    console.log('SWIPED')
+    removeTopCard()
+  }
 
   // UPDATES CARD DETAILS ON SWIPE
   function updateCardDetails (swipe) {
@@ -115,7 +135,7 @@ export default function App () {
     cards[cardIndex].score = SCORES_SORTABLE[`${swipe}`];
     cards[cardIndex][`count_${swipe}`] += 1;
   }
-
+  
   function handleLeftSwipe () {
     console.log('LEFT - easy');
     updateCardDetails('easy');
