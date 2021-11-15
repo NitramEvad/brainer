@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState,  } from 'react';
-import { Animated, PanResponder, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { Animated, PanResponder, StyleSheet, View, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
@@ -13,7 +13,6 @@ export default function App () {
 
   const [cards, setCards] = useState(data);
   const [cardIndex, setCardIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
 
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
@@ -28,7 +27,7 @@ export default function App () {
   // TODO: CHANGE FROM CARDS.LENGTH TO ALL CARDS HAVE SCORE OF <X OR HAVE BEEN VIEWED X-TIMES TODAY
   useEffect(() => {
     if (!cards.length) {
-      setCards(data)
+      setCards(data);
     }
   }, [cards.length]);
 
@@ -54,9 +53,8 @@ export default function App () {
             x: directionX * 500,
             y: dy, 
           },
-          friction: 5,
           useNativeDriver: false,
-          // TODO: REWORK
+          friction: 5,
         }).start(recordEasyHard)
       } else {
         Animated.spring(swipe, {
@@ -76,9 +74,8 @@ export default function App () {
             x: 100, 
             y: directionY * 500, 
           },
-          friction: 5,
           useNativeDriver: false,
-          // TODO: REWORK
+          friction: 5,
         }).start(recordModRedo)
       } else {
         Animated.spring(swipe, {
@@ -93,35 +90,11 @@ export default function App () {
     },
   });
   
-  // RMOVES CARD ON COMPLETE SWIPE
-
-  
-  const recordEasyHard = () => {
-    if (swipe.x._value < -50 ) updateCardDetails('hard');
-    if (swipe.x._value > 50 ) updateCardDetails('easy');
-    swipe.setValue({ x: 0, y: 0 })
-    setCards((prevState) => prevState.slice(1))
-  }
-
-  const recordModRedo = () => {
-    if (swipe.y._value > 499) updateCardDetails('redo');
-    if (swipe.y._value < -499) updateCardDetails('moderate');
-    swipe.setValue({ x: 0, y: 0 })
-    setCards((prevState) => prevState.slice(1))
-  }
-
-  // OLD REMOVE TOPCARD USING USECALLBACK() FUNCTION - MAY BE BETTER
-  // const removeTopCardOld = useCallback(() => { 
-  //   setCards((prevState) => 
-  //   prevState.slice(1)
-  //   )
-  //   swipe.setValue({ x: 0, y: 0 })
-  // },[swipe])
-  
   const handleChoiceX = useCallback((direction) => {
     Animated.timing(swipe.x, {
       toValue: direction * 500,
       duration: 600,
+      useNativeDriver: false,
     }).start(recordEasyHard)
   }, [recordEasyHard, swipe.x])
   
@@ -129,28 +102,41 @@ export default function App () {
     Animated.timing(swipe.y, {
       toValue: direction * 700,
       duration: 600,
+      useNativeDriver: false,
     }).start(recordModRedo)
   }, [recordModRedo, swipe.y])
   
 
-  const markCard = () => {
-    console.log('SWIPED')
-    removeTopCard()
+  // TRACE DIRECTION OF CARD SWIPE FOR RECORDING IN CARD DATA
+  const recordEasyHard = () => {
+    if (swipe.x._value < -50 ) updateCardDetails('hard');
+    if (swipe.x._value > 50 ) updateCardDetails('easy');
+    swipe.setValue({ x: 0, y: 0 });
   }
 
-  // UPDATES CARD DETAILS ON SWIPE
+  const recordModRedo = () => {
+    if (swipe.y._value > 499) updateCardDetails('redo');
+    if (swipe.y._value < -499) updateCardDetails('moderate');
+    swipe.setValue({ x: 0, y: 0 });
+  }
+
+
+  // UPDATES CARD DETAILS IN DATA ON SWIPE
   function updateCardDetails (swipe) {
-    // TODO: change "cards" to "data"
     const index = data.map(e => e._id).indexOf(cards[0]._id)
-    console.log('INDEX', index)
-    console.log('SCORE: ', SCORES_SORTABLE[`${swipe}`])
-    
     data[index].times_viewed += 1;
     data[index].last_viewed = Date.now();
     data[index].score = SCORES_SORTABLE[`${swipe}`];
     data[index][`count_${swipe}`] += 1;
+    processDeck()
   }
   
+
+  // REMOVES CARD FROM DECK IN STATE
+  const processDeck = () => {
+    console.log('SWIPED')
+    setCards((prevState) => prevState.slice(1))
+  }
 
   return (
     <View style={styles.container}>
