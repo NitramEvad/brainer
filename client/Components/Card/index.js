@@ -19,6 +19,8 @@ function lastViewedStr (timeStamp) {
 
 
 export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} ) {
+  
+  const [isFlipped, setIsFlipped] = useState(false);
 
   // ROTATION FACTOR WHEN DRAGGING CARDS
   const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
@@ -56,11 +58,13 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
           style={[styles.swipesBox, styles.hardBox, { opacity: hardOpacity }]}>
             <Swipes type="hard"/>
         </Animated.View>
+
+        {/* TODO: DUPLICATE FOR REDO/MODERATE TAGS */}
       </>
     );
   }, [easyOpacity, hardOpacity]);
   
-  const [isFlipped, setIsFlipped] = useState(false);
+  // CARD FLIP ACTION
 
   function handleFlip () {
     console.log('FLIP clicked')
@@ -113,7 +117,8 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
 
         {
         isFirst && showSwipes()
-        }
+      }
+      
     </Animated.View>
 
   )

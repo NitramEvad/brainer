@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useRef, useState,  } from 'react';
-import { Animated, Button, PanResponder, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { Animated, PanResponder, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import data from './data.js';
 import Card from './Components/Card';
-import CardFlip from 'react-native-card-flip';
 import { CARD } from './Constants/constants';
+import CardFlip from 'react-native-card-flip';
 
 export default function App () {
 
@@ -16,17 +16,20 @@ export default function App () {
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current
 
+  //  TODO: REMOVE
+  console.table(cards);
+
   useEffect(() => {
     if (!cards.length) {
       setCards(data)
     }
   }, [cards.length]);
 
+  // CARD PANNING ANIMATION
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (_, { dx, dy, y0 }) => {
       swipe.setValue({ x: dx, y: dy });
-      console.log(y0 > 900 /2 ? 1 : -1)
       tiltSign.setValue(y0 > CARD.HEIGHT /2 ? 1 : -1 )
     },
     onPanResponderRelease: (_, { dx, dy }) => {
@@ -57,6 +60,7 @@ export default function App () {
     },
   });
 
+  // RMOVES CARD ON COMPLETE SWIPE
   const removeTopCard = useCallback(() => { 
     setCards((prevState) => prevState.slice(1))
     swipe.setValue({x: 0, y: 0})
@@ -67,10 +71,9 @@ export default function App () {
       toValue: direction * 500,
       duration: 400,
       useNativeDriver: true,
-    }).start(remoteTopCard)
+    }).start(removeTopCard)
   }, [removeTopCard, swipe.x])
 
-  console.table(cards);
 
   return (
     <View style={styles.wrapper}>
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
   cards: {
     flex: 1,
     padding: 10,
-    // TODO: fix: shadow not visible
+    // TODO: FIX: SHADOW NOT VISIBLE
     shadowColor: 'grey',
     shadowOffset: {
       height: 5,
@@ -127,6 +130,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   footer: {
+    // TODO: RESOLVE FOOTER NOT STAYING AT BOTTOM AND REMOVE THIS
     top: '500%',
   }
 });
