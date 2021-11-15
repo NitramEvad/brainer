@@ -78,7 +78,9 @@ export const styles = StyleSheet.create({
   },
   
   textMain: {
-    fontSize: 40,
+    textAlign: 'center',
+    fontFamily: 'aad',
+    fontSize: 30,
   },
 
   textShadow: {

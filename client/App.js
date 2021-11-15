@@ -5,11 +5,13 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import data from './data.js';
 import Card from './Components/Card';
-import { CARD, SCORES_SORTABLE } from './Constants/constants';
+import { CARD, SCORES, } from './Constants/constants';
 // TODO: ATTEMPT TO IMPLEMENT VISUAL FLIP
 import CardFlip from 'react-native-card-flip';
 
 export default function App () {
+
+
 
   const [cards, setCards] = useState(data);
   const [cardIndex, setCardIndex] = useState(0);
@@ -31,27 +33,46 @@ export default function App () {
     }
   }, [cards.length]);
 
+  // SWIPE ACTION-EVERY TIME CARDS IS SLICED
+  useEffect(() => {
+    console.log('SWIPED!')
+  }, [cards.length]);
+
+  // TODO: ATTEMPT AT APPLYING ALGO TO POPUATION OF CARD DECK
+  // TODO: MAYBE A RE-SORT OF CARDS BY SCORE ON EACH SWIPE?
+  // const resetValues = () => {
+  //   swipe.setValue({ x: 0, y: 0 });
+  //   let nextCard = data.reduce(function (min, obj) {
+  //     return obj.score < min.score ? obj : min;
+  //   })
+  //   setCards((prevState) => {
+  //     prevState.slice(1)
+  //     prevState.push(nextCard)
+  //     }
+  //   )
+  // }
+
   // CARD PANNING ANIMATION
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (_, { dx, dy, y0 }) => {
       swipe.setValue({ x: dx, y: dy });
-      tiltSign.setValue(y0 > CARD.HEIGHT / 2 ? 1 : -1 )
+      tiltSign.setValue(y0 > CARD.HEIGHT / 2 ? 1 : -1)
     },
     onPanResponderRelease: (_, { dx, dy }) => {
       
-    const directionX = Math.sign(dx);
-    const isActionActiveX = Math.abs(dx) > 100;
+      const directionX = Math.sign(dx);
+      const isActionActiveX = Math.abs(dx) > 100;
       
-    const directionY = Math.sign(dy);
-    const isActionActiveY = Math.abs(dy) > 100;
+      const directionY = Math.sign(dy);
+      const isActionActiveY = Math.abs(dy) > 100;
 
       if (isActionActiveX) {
         Animated.timing(swipe, {
           duration: 200,
           toValue: {
             x: directionX * 500,
-            y: dy, 
+            y: dy,
           },
           useNativeDriver: false,
           friction: 5,
@@ -65,14 +86,14 @@ export default function App () {
           friction: 5,
           useNativeDriver: false,
         }).start();
-      } 
+      }
       
       if (isActionActiveY) {
         Animated.timing(swipe, {
           duration: 200,
           toValue: {
-            x: 100, 
-            y: directionY * 500, 
+            x: 100,
+            y: directionY * 500,
           },
           useNativeDriver: false,
           friction: 5,
@@ -86,9 +107,19 @@ export default function App () {
           friction: 5,
           useNativeDriver: false,
         }).start();
-      } 
+      }
     },
   });
+  
+  const recordEasyHard = () => {
+    if (swipe.x._value < -50) updateCardDetails('hard');
+    if (swipe.x._value > 50) updateCardDetails('easy');
+  }
+
+  const recordModRedo = () => {
+    if (swipe.y._value > 499) updateCardDetails('redo');
+    if (swipe.y._value < -499) updateCardDetails('moderate');
+  }
   
   const handleChoiceX = useCallback((direction) => {
     Animated.timing(swipe.x, {
@@ -106,67 +137,55 @@ export default function App () {
     }).start(recordModRedo)
   }, [recordModRedo, swipe.y])
   
-
-  // TRACE DIRECTION OF CARD SWIPE FOR RECORDING IN CARD DATA
-  const recordEasyHard = () => {
-    if (swipe.x._value < -50 ) updateCardDetails('hard');
-    if (swipe.x._value > 50 ) updateCardDetails('easy');
-    swipe.setValue({ x: 0, y: 0 });
-  }
-
-  const recordModRedo = () => {
-    if (swipe.y._value > 499) updateCardDetails('redo');
-    if (swipe.y._value < -499) updateCardDetails('moderate');
-    swipe.setValue({ x: 0, y: 0 });
-  }
-
-
-  // UPDATES CARD DETAILS IN DATA ON SWIPE
+  
+  // UPDATES CARD DETAILS ON SWIPE
   function updateCardDetails (swipe) {
     const index = data.map(e => e._id).indexOf(cards[0]._id)
     data[index].times_viewed += 1;
     data[index].last_viewed = Date.now();
-    data[index].score = SCORES_SORTABLE[`${swipe}`];
+    data[index].score = Number('' + SCORES[`${swipe}`] + Date.now());
     data[index][`count_${swipe}`] += 1;
-    processDeck()
+    resetValues();
   }
   
-
-  // REMOVES CARD FROM DECK IN STATE
-  const processDeck = () => {
-    console.log('SWIPED')
-    setCards((prevState) => prevState.slice(1))
+  // RESET CARDS
+  const resetValues = () => {
+    swipe.setValue({ x: 0, y: 0 });
+    setCards((prevState) => prevState.slice(1)
+    )
   }
 
-  return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.cardArea}>
-        {
-          cards.map((card, index) => {
-            const isFirst = index === 0;
-            const dragHanders = isFirst ? panResponder.panHandlers : {};
-          return (
-            <Card 
-              key={card._id}
-              card={card}
-              index={index}
-              isFirst={isFirst}
-              swipe={swipe}
-              tiltSign={tiltSign}
-              {...dragHanders}
-            >
-            </Card>
-          )
-        }).reverse()}
+
+
+    return (
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.cardArea}>
+          {
+            cards.map((card, index) => {
+              const isFirst = index === 0;
+              const dragHanders = isFirst ? panResponder.panHandlers : {};
+              return (
+                <Card
+                  key={card._id}
+                  card={card}
+                  index={index}
+                  isFirst={isFirst}
+                  swipe={swipe}
+                  tiltSign={tiltSign}
+                  {...dragHanders}
+                >
+                </Card>
+              )
+            }).reverse()}
+        </View>
+        <StatusBar style="none" />
+        <View style={styles.footer}>
+          <Footer handleChoiceX={handleChoiceX} handleChoiceY={handleChoiceY} />
+        </View>
       </View>
-      <StatusBar style="none"/>
-      <View style={styles.footer}>
-        <Footer handleChoiceX={handleChoiceX} handleChoiceY={handleChoiceY}/>
-      </View>
-    </View>
-  );
-}
+    );
+  }
 
 const styles = StyleSheet.create({
   container: {

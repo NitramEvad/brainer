@@ -30,10 +30,3 @@ export const SCORES = {
   redo: 10,
 };
 
-export const SCORES_SORTABLE = {
-  default: Number(`${SCORES.default}${Date.now()}`),
-  easy: Number(`${SCORES.easy}${Date.now()}`),
-  moderate: Number(`${SCORES.moderate}${Date.now()}`),
-  hard: Number(`${SCORES.hard}${Date.now()}`),
-  redo: Number(`${SCORES.redo}${Date.now()}`),
-}
