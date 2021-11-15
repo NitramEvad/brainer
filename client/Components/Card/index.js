@@ -1,14 +1,12 @@
 import { styles } from './styles';
 import React, {useCallback, useState, useEffect, } from 'react';
-import { Animated, View, Text, Image, } from 'react-native';
+import { Animated, View, Text, Image, TouchableOpacity } from 'react-native';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swipes from '../Swipes';
-
-//  TODO: IMPLEMENT
+import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import CardFlip from 'react-native-card-flip';
-import data from '../../data';
 
 // CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
 // TODO: MULTIPLE INVOCATIONS IS CAUSING ERRORS
@@ -26,11 +24,13 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   const [isFlipped, setIsFlipped] = useState(false);
     
   // TODO: ON TAP OF CARD, FLIP QUESTION TEXT TO SHOW ANSWER TEXT
-  // TODO: BEFORE MOVING TO NEXT CARD SETISFLIPPED(FALSE) AGAIN
   
-  function handleFlip () {
-    console.log('FLIP clicked')
-    setIsFlipped(isFlipped ? false : true)
+  // TODO: BEFORE MOVING TO NEXT CARD SETISFLIPPED(FALSE) AGAIN
+  function handleFlip (event) {
+    if (event.nativeEvent.state === State.ACTIVE) {
+      console.log('FLIP clicked')
+      setIsFlipped(isFlipped ? false : true)
+    }
   }
 
   // ROTATION FACTOR WHEN DRAGGING CARDS
@@ -94,49 +94,52 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   }, [easyOpacity, hardOpacity, moderateOpacity, redoOpacity]);
   
 
-
   return (
-    
-    <Animated.View style={[styles.container, isFirst && animatedCardStyle]} {...rest}>
+    <TapGestureHandler onHandlerStateChange={handleFlip}
+    >
 
-      {/* TODO: WRAP IN TOUCHABLE WITH A "FLIP" ACTION */}
-      {/* <Button title='FLIP' onPress={() => handleFlip()} /> */}
+      <Animated.View style={[styles.container, isFirst && animatedCardStyle]} {...rest} >
 
-      <Image source={require('../../assets/paper3.jpg')} style={styles.image} />
-      <LinearGradient colors={['transparent', 'grey']} style={styles.gradient}/>
+        {/* TODO: WRAP IN TOUCHABLE WITH A "FLIP" ACTION */}
+        {/* <Button title='FLIP' onPress={() => handleFlip()} /> */}
 
-      <View style={styles.textContent}>
-        <View style={styles.questionMain}>
-          <Text style={[styles.textMain, styles.textShadow]}>
-            {isFlipped ? card.answer_main : card.front_field_main }
-          </Text>
-        </View>
+        <Image source={require('../../assets/paper3.jpg')} style={styles.image} />
+        <LinearGradient colors={['transparent', 'grey']} style={styles.gradient}/>
 
-        <View style={styles.statsBlock}>
-          <View style={styles.stats}>
-            <View style={styles.countsRow}>
-              <Text style={styles.pill}>Card ID: {card._id}</Text>
-              <Text style={styles.pill}>Score: {card.score}</Text>
-            </View>
-            <View style={styles.countsRow}>
-              <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
-              <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
-            </View>
-            <View style={styles.countsRow}>
-              <Text style={styles.pill}>Easy: {card.count_easy}</Text>
-              <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
-              <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-              <Text style={styles.pill}>Again: {card.count_again}</Text>
+        <View style={styles.textContent} >
+          <View style={styles.questionMain}>
+            <Text style={[styles.textMain, styles.textShadow]}>
+              {isFlipped ? card.answer_main : card.front_field_main }
+            </Text>
+            
+          </View>
+
+          <View style={styles.statsBlock}>
+            <View style={styles.stats}>
+              <View style={styles.countsRow}>
+                <Text style={styles.pill}>Card ID: {card._id}</Text>
+                <Text style={styles.pill}>Score: {card.score}</Text>
+              </View>
+              <View style={styles.countsRow}>
+                <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
+                <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
+              </View>
+              <View style={styles.countsRow}>
+                <Text style={styles.pill}>Easy: {card.count_easy}</Text>
+                <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
+                <Text style={styles.pill}>Hard: {card.count_hard}</Text>
+                <Text style={styles.pill}>Again: {card.count_again}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-        {
-          isFirst && showSwipes()
-        }
-      
-    </Animated.View>
+          {
+            isFirst && showSwipes()
+          }
+        
+      </Animated.View>
+    </TapGestureHandler>
 
   )
 }
