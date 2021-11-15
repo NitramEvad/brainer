@@ -1,123 +1,89 @@
 import { StyleSheet } from 'react-native';
-import { CARD, COLOR_THEME } from '../../Constants/constants';
-
-const cornerStyle = {
-  position: 'absolute',
-  top: 5,
-  padding: 8,
-  borderWidth: 4,
-  borderRadius: 10,
-  backgroundColor: 'white',
-  zIndex: 0,
-}
+import { CARD, COLORS } from '../../Constants/constants';
 
 export const styles = StyleSheet.create({
   
-  
   container: {
     position: 'absolute',
+
+    // TODO: FIX: SHADOW NOT WORKING
+    // shadowColor: 'grey',
+    // shadowOffset: {
+    //   height: 10,
+    //   width: 5,
+    // },
+    // elevation: 11,
+    // shadowOpacity: 0.3,
+    // shadowRadius: 20,
   },
   
   image: {
-    width: CARD.WIDTH,
-    height: CARD.HEIGHT-200,
     borderRadius: CARD.BORDER_RADIUS,
+    height: CARD.HEIGHT-200,
+    width: CARD.WIDTH,
   },
 
   gradient: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 250,
     borderRadius: CARD.BORDER_RADIUS,
+    bottom: 0,
+    height: 150,
+    left: 0,
+    position: 'absolute',
+    right: 0,
   },
 
-  // BOX BORDERS
+  // CORNER TAGS
 
-  swipesBox: {
+  swipesTag: {
     position: 'absolute',
     top: 200,
   },
 
-  easyBox: {
+  easyTag: {
     left: 30,
     transform: [{ rotate: '-30deg' }],
-    // backgroundColor: COLOR_THEME.brainderGreen,
   },
   
-  hardBox: {
+  hardTag: {
     right: 30,
     transform: [{rotate: '30deg'}],
   },
 
-  // easyBox: {
-  //   ...cornerStyle,
-  //   top: '30%',
-  //   left: -50,
-  //   borderColor: '#6ee3b4',
-  // },
-  // hardBox: {
-  //   ...cornerStyle,
-  //   top: '30%',
-  //   right: -50,
-  //   borderColor: '#ec5288',
-  // },
-  againBox: {
-    ...cornerStyle,
-    top: -20,
-    left: '40%',
-    borderColor: 'cyan',
+  redoTag: {
+    left: '35%',
+    top: -10,
+    transform: [{rotate: '10deg'}],
   },
-  moderateBox: {
-    ...cornerStyle,
-    top: '95%',
-    left: '40%',
-    borderColor: 'grey',
+  
+  moderateTag: {
+    left: '20%',
+    top: 200,
+    transform: [{rotate: '-10deg'}],
   },
 
-  // BOXTEXT
   boxText: {
     fontSize: 25,
     fontWeight: 'bold',
   },
 
-  boxTextEasy: {
-    color: '#6ee3b4',
-
-  },
-  boxTextHard: {
-    color: '#ec5288',
-  },
-  boxTextModerate: {
-    color: 'grey',
-
-  },
-  boxTextAgain: {
-    color: 'cyan',
-  },
+  // FLASH CARD CONTENTS
 
   textContent: {
     position: 'absolute',
-    top: 50,
+    top: 30,
     padding: 10,
   },  
-  
-  backgroundImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 20,
-  },
   
   questionMain: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
   },
+
   textMain: {
     fontSize: 50,
   },
+
   textShadow: {
     textShadowColor: 'grey',
     textShadowOffset: { width: 2, height: 2},
@@ -134,16 +100,23 @@ export const styles = StyleSheet.create({
   },
 
   // TODO: Make sticky to bottom of card
-  textMinor: {
-    fontSize: 8,
+  statsBlock: {
+    position: 'absolute',
+    top: 500,
   },
+
+  stats: {
+    alignItems: 'space-between',
+  },
+
   countsRow: {
     alignItems: 'flex-end',
-    bottom: -80,
+    bottom: -30,
     flexDirection: 'row',
     justifyContent: 'space-between',
     
   },
+
   pill: {
     borderRadius: 10,
     borderStyle: 'solid',

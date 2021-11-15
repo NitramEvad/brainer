@@ -5,11 +5,13 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swipes from '../Swipes'
+
+//  TODO: IMPLEMENT
 import CardFlip from 'react-native-card-flip';
 import data from '../../data';
 
 // CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
-// TODO: multiple invocations is causing bugs
+// TODO: MULTIPLE INVOCATIONS IS CAUSING ERRORS
 TimeAgo.addDefaultLocale(en);
 
 const timeAgo = new TimeAgo('en-US')
@@ -29,17 +31,28 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   });
 
   // FADE-IN/FADE-OUT OF CORNER TAGS AS ITEM IS DRAGGED
-  // TODO: ADD FOR REDO AND MODERATE (UP/DOWN) DRAGS
   const easyOpacity = swipe.x.interpolate({
     extrapolate: 'clamp',
-    inputRange: [30, 300],
+    inputRange: [100, 300],
     outputRange: [0, 1],
   })
 
   const hardOpacity = swipe.x.interpolate({
     extrapolate: 'clamp',
-    inputRange: [-300, -30],
+    inputRange: [-300, -100],
     outputRange: [1, 0],
+  })
+
+  const moderateOpacity = swipe.y.interpolate({
+    extrapolate: 'clamp',
+    inputRange: [-300, -200],
+    outputRange: [1, 0],
+  })
+
+  const redoOpacity = swipe.y.interpolate({
+    extrapolate: 'clamp',
+    inputRange: [200, 300],
+    outputRange: [0, 1],
   })
 
   const animatedCardStyle = {
@@ -51,19 +64,27 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
     return (
       <>
         <Animated.View
-          style={[styles.swipesBox, styles.easyBox, { opacity: easyOpacity }]}>
+          style={[styles.swipesTag, styles.easyTag, { opacity: easyOpacity }]}>
               <Swipes type="easy"/>
         </Animated.View>
         <Animated.View
-          style={[styles.swipesBox, styles.hardBox, { opacity: hardOpacity }]}>
+          style={[styles.swipesTag, styles.hardTag, { opacity: hardOpacity }]}>
             <Swipes type="hard"/>
         </Animated.View>
 
-        {/* TODO: DUPLICATE FOR REDO/MODERATE TAGS */}
+        <Animated.View
+          style={[styles.swipesTag, styles.redoTag, { opacity: redoOpacity }]}>
+              <Swipes type="redo"/>
+        </Animated.View>
+        <Animated.View
+          style={[styles.swipesTag, styles.moderateTag, { opacity: moderateOpacity }]}>
+            <Swipes type="moderate"/>
+        </Animated.View>
       </>
     );
-  }, [easyOpacity, hardOpacity]);
+  }, [easyOpacity, hardOpacity, moderateOpacity, redoOpacity]);
   
+
   // CARD FLIP ACTION
 
   function handleFlip () {
@@ -73,7 +94,9 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
 
 
   return (
+
     <Animated.View style={[styles.container, isFirst && animatedCardStyle]} {...rest}>
+
       {/* <Button title='FLIP' onPress={() => handleFlip()} /> */}
 
       <Image source={require('../../assets/paper3.jpg')} style={styles.image} />
@@ -82,42 +105,36 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
       <View style={styles.textContent}>
         <View style={styles.questionMain}>
           <Text style={[styles.textMain, styles.textShadow]}>
-            {isFlipped ? card.front_field_main : card.answer_main}
+            {isFlipped ? card.answer_main : card.front_field_main }
           </Text>
         </View>
-
-        <View style={styles.questionSecondary}>
-          <Text style={styles.textSecondary}>
-            Secondary text
-          </Text>
-        </View>
-
 
           {/* TODO: REMOVE*/}
-        <View style={styles.countsRow}>
-          <Text style={styles.pill}>Card ID: {card._id}</Text>
-          <Text style={styles.pill}>Score: {card.score}</Text>
-        </View>
           
         {/* TODO: shift to stop from being pushed off the bottom */}
-        <View style={styles.textMinor}>
-          <View style={styles.countsRow}>
-            <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
-            {/* TODO: change last viewed to "x x's ago" */}
-            <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
-          </View>
-          <View style={styles.countsRow}>
-            <Text style={styles.pill}>Easy: {card.count_easy}</Text>
-            <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
-            <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-            <Text style={styles.pill}>Again: {card.count_again}</Text>
+        <View style={styles.statsBlock}>
+          <View style={styles.stats}>
+            <View style={styles.countsRow}>
+              <Text style={styles.pill}>Card ID: {card._id}</Text>
+              <Text style={styles.pill}>Score: {card.score}</Text>
+            </View>
+            <View style={styles.countsRow}>
+              <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
+              <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
+            </View>
+            <View style={styles.countsRow}>
+              <Text style={styles.pill}>Easy: {card.count_easy}</Text>
+              <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
+              <Text style={styles.pill}>Hard: {card.count_hard}</Text>
+              <Text style={styles.pill}>Again: {card.count_again}</Text>
+            </View>
           </View>
         </View>
       </View>
 
         {
-        isFirst && showSwipes()
-      }
+          isFirst && showSwipes()
+        }
       
     </Animated.View>
 

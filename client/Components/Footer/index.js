@@ -20,7 +20,7 @@ function starPress () {
 
 function heartPress () {
   console.log('HEART PRESS - still to be implemented');
-  handleChoice(1)
+  // handleChoice(1)
 }
 
   

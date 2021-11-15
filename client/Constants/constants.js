@@ -15,10 +15,10 @@ export const CARD = {
 };
 
 export const COLORS = {
-  hard: '#ec5288',
-  easy: '#6ee3b4',
-  moderate: 'grey',
-  redo: 'cyan',
+  hard: 'hsl(339, 80%, 62%)',
+  easy: '	hsl(156, 68%, 66%)',
+  moderate: 'hsl(0, 0%, 50%)',
+  redo: 'hsl(180, 100%, 50%)',
 };
 
 export const SCORES = {

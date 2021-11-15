@@ -76,15 +76,15 @@ export default function App () {
 
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.container}>
       <Header />
-      <View style={styles.container}>
+      <View style={styles.cardArea}>
         {
           cards.map((card, index) => {
             const isFirst = index === 0;
             const dragHanders = isFirst ? panResponder.panHandlers : {};
           return (
-            <Card
+            <Card 
               key={card._id}
               card={card}
               index={index}
@@ -106,29 +106,16 @@ export default function App () {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
   },
-  container: {
+  cardArea: {
     alignItems: 'center',
     backgroundColor: '#fff',
     flex: 1,
+  },
 
-  },
-  cards: {
-    flex: 1,
-    padding: 10,
-    // TODO: FIX: SHADOW NOT VISIBLE
-    shadowColor: 'grey',
-    shadowOffset: {
-      height: 5,
-      width: 5,
-    },
-    elevation: 6,
-    shadowOpacity: 0.5,
-    shadowRadius: 6,
-  },
   footer: {
     // TODO: RESOLVE FOOTER NOT STAYING AT BOTTOM AND REMOVE THIS
     top: '500%',
