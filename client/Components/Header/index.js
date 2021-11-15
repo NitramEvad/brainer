@@ -32,12 +32,14 @@ export default function Header () {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'flex-end',
     backgroundColor: 'white',
     flexDirection: 'row',
-    height: 60,
+    height: 90,
     justifyContent: 'space-around',
     marginBottom: 15,
     padding: 15,
+    top: 0,
     zIndex: -1,
 
     shadowColor: '#000',
@@ -45,9 +47,9 @@ const styles = StyleSheet.create({
       height: 10,
       width: 0,
     },
+    elevation: 10,
     shadowOpacity: 0.30,
     shadowRadius: 10,
-    elevation: 10,
   },
 
   button: {

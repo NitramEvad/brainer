@@ -85,7 +85,11 @@ export default function App () {
   // RMOVES CARD ON COMPLETE SWIPE
   const removeTopCard = useCallback(() => { 
     // TODO: UPDAE CARD DETAILS AND INDEX
-    setCards((prevState) => prevState.slice(1))
+    setCards((prevState) => {
+      console.log('PREV: ', prevState)
+      prevState.slice(1)
+    })
+    
     swipe.setValue({ x: 0, y: 0 })
   },[swipe])
   
@@ -160,6 +164,7 @@ export default function App () {
           )
         }).reverse()}
       </View>
+      <StatusBar style="none"/>
       <View style={styles.footer}>
         <Footer handleChoiceX={handleChoiceX} handleChoiceY={handleChoiceY}/>
       </View>
@@ -180,6 +185,6 @@ const styles = StyleSheet.create({
 
   footer: {
     // TODO: RESOLVE FOOTER NOT STAYING AT BOTTOM AND REMOVE THIS
-    top: '500%',
+    top: '370%',
   }
 });

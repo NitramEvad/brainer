@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
   
   image: {
     borderRadius: CARD.BORDER_RADIUS,
-    height: CARD.HEIGHT-200,
-    width: CARD.WIDTH,
+    height: CARD.HEIGHT*.7,
+    width: CARD.WIDTH*.7,
   },
 
   gradient: {
@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
   // TODO: Make sticky to bottom of card
   statsBlock: {
     position: 'absolute',
-    top: 500,
+    top: 400,
   },
 
   countsRow: {
