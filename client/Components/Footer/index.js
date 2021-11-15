@@ -1,44 +1,82 @@
-import React from 'react'
-import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View, } from 'react-native';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { COLORS } from '../../Constants/constants';
 
-export default function Footer(easyHandler, moderateHandler, hardHandler, againHandler) {
+// BUTTON HANDLERS
+// TODO: OPERATE AS ALTERNATIVES TO SWIPE ACTIONS
+function crossPress () {
+  console.log('CROSS PRESS - still to be implemented');
+  handleChoice(-1)
+}
+
+function redoPress () {
+  console.log('REDO PRESS - still to be implemented');
+}
+
+function starPress () {
+  console.log('CROSS PRESS - still to be implemented');
+}
+
+function heartPress () {
+  console.log('HEART PRESS - still to be implemented');
+  handleChoice(1)
+}
+
+  
+// TODO: ADD PROPS eg. (easyHandler, moderateHandler, hardHandler, againHandler)
+export default function Footer ( {handleChoice}) {
+  
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={hardHandler}>
-        <FontAwesome name="times" size={25} color="#ec5288" ></FontAwesome>
+
+      <TouchableOpacity style={styles.button} >
+        <FontAwesome name="times" size={25} color={COLORS.hard} onPress={() => crossPress()}></FontAwesome>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={againHandler}>
-        <FontAwesome name="undo" size={25} color="cyan"></FontAwesome>
+      
+      <TouchableOpacity style={styles.button} >
+        <FontAwesome5 name="redo" size={25} color={COLORS.redo} onPress={() => redoPress()}></FontAwesome5>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={moderateHandler}>
-        <FontAwesome name="star" size={25} color="grey"></FontAwesome>
+      <TouchableOpacity style={styles.button} >
+        <FontAwesome name="star" size={25} color={COLORS.moderate} onPress={() => starPress()}></FontAwesome>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={easyHandler}>
-        <FontAwesome name="heart" size={25} color="#6ee3b4" ></FontAwesome>
+      
+      <TouchableOpacity style={styles.button} >
+        <FontAwesome name="heart" size={25} color={COLORS.easy} onPress={() => heartPress()}></FontAwesome>
       </TouchableOpacity>
+
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    // position: 'absolute',
+    alignItems: 'center',
+    bottom: 15,
     flexDirection: 'row',
+    height: 70,
     justifyContent: 'space-around',
-    alignItems: 'center'
+    zIndex: -1,
   },
+
   button: {
-    width: 50,
-    height: 50,
+    alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 25,
-    alignItems: 'center',
+    height: 50,
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.29,
-    shadowRadius: 14,
+    width: 50,
+
+    shadowColor: 'grey',
+    shadowOffset: {
+      height: 5,
+      width: 5,
+    },
     elevation: 7,
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
   }
 })
+

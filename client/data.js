@@ -1,6 +1,7 @@
+
 const data = [
   {
-  "front_field_main": "The Harvard architecture for micro-controllers added which additional bus?",
+    "front_field_main": "The Harvard architecture for micro-controllers added which additional bus?",
     "answer_main": "Instruction",
     "count_easy": 0,
     "count_moderate": 0,
@@ -11,11 +12,10 @@ const data = [
     "times_viewed": 0,
     "last_viewed": 0,
     "owner": "Dave",
-    "uri": "require('../../assets/1.jpg')",
+    "uri": "('../../assets/paper1.jpg')",
     "_id": 0,
   },
   {
-    "category": "Science: Computers",
     "front_field_main": "Which company was established on April 1st, 1976 by Steve Jobs, Steve Wozniak and Ronald Wayne?",
     "answer_main": "Apple",
     "count_easy": 0,
@@ -27,7 +27,7 @@ const data = [
     "times_viewed": 0,
     "last_viewed": 0,
     "owner": "Dave",
-    "uri": "require('../../assets/2.jpg')",
+    "uri": "require('../../assets/paper2.jpg')",
     "_id": 1,
   },
   {
@@ -42,7 +42,7 @@ const data = [
     "times_viewed": 0,
     "last_viewed": 0,
     "owner": "Dave",
-    "uri": "require('../../assets/3.jpg')",
+    "uri": "require('../../assets/paper3.jpg')",
     "_id": 2,
   },
   {
