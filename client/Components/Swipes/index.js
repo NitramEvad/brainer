@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'hsla(0,0%,0%,0.2)',
     borderRadius: 15,
     borderWidth: 6,
-    paddingHorizontal: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   text: {
     fontSize: 40,

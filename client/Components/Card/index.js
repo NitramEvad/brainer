@@ -22,11 +22,17 @@ function lastViewedStr (timeStamp) {
 
 export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} ) {
   
+  // CARD FLIP ACTION
   const [isFlipped, setIsFlipped] = useState(false);
+    
+  function handleFlip () {
+    console.log('FLIP clicked')
+    setIsFlipped(isFlipped ? false : true)
+  }
 
   // ROTATION FACTOR WHEN DRAGGING CARDS
   const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
-    inputRange: [-100, 0, 100],
+    inputRange: [-150, 0, 150],
     outputRange: ['10deg', '0deg', '-10deg'],
   });
 
@@ -85,18 +91,12 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   }, [easyOpacity, hardOpacity, moderateOpacity, redoOpacity]);
   
 
-  // CARD FLIP ACTION
-
-  function handleFlip () {
-    console.log('FLIP clicked')
-    setIsFlipped(isFlipped ? false : true)
-  }
-
 
   return (
-
+    
     <Animated.View style={[styles.container, isFirst && animatedCardStyle]} {...rest}>
 
+      {/* TODO: WRAP IN TOUCHABLE WITH A "FLIP" ACTION */}
       {/* <Button title='FLIP' onPress={() => handleFlip()} /> */}
 
       <Image source={require('../../assets/paper3.jpg')} style={styles.image} />
@@ -109,9 +109,6 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
           </Text>
         </View>
 
-          {/* TODO: REMOVE*/}
-          
-        {/* TODO: shift to stop from being pushed off the bottom */}
         <View style={styles.statsBlock}>
           <View style={styles.stats}>
             <View style={styles.countsRow}>

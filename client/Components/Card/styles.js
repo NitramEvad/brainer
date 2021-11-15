@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
 
   swipesTag: {
     position: 'absolute',
-    top: 200,
   },
 
   easyTag: {
@@ -57,7 +56,7 @@ export const styles = StyleSheet.create({
   
   moderateTag: {
     left: '20%',
-    top: 200,
+    top: 400,
     transform: [{rotate: '-10deg'}],
   },
 
@@ -70,33 +69,22 @@ export const styles = StyleSheet.create({
 
   textContent: {
     position: 'absolute',
+    alignItems: 'center',
     top: 30,
     padding: 10,
   },  
   
   questionMain: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
   },
-
+  
   textMain: {
-    fontSize: 50,
+    fontSize: 40,
   },
 
   textShadow: {
     textShadowColor: 'grey',
     textShadowOffset: { width: 2, height: 2},
     textShadowRadius: 10,
-  },
-  
-  questionSecondary: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  textSecondary: {
-    fontSize: 40,
   },
 
   // TODO: Make sticky to bottom of card
@@ -105,12 +93,8 @@ export const styles = StyleSheet.create({
     top: 500,
   },
 
-  stats: {
-    alignItems: 'space-between',
-  },
-
   countsRow: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     bottom: -30,
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -13,7 +13,6 @@ import CardFlip from 'react-native-card-flip';
 // import Card from './Components/Card';
 
 
-export default function App () {
 
   const colorTheme = {
     brainderRed: '#ec5288',
@@ -174,24 +173,3 @@ export default function App () {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
-  cards: {
-    flex: 1,
-    padding: 10,
-    // TODO: fix: shadow not visible
-    shadowColor: 'grey',
-    shadowOffset: {
-      height: 5,
-      width: 5,
-    },
-    elevation: 6,
-    shadowOpacity: 0.5,
-    shadowRadius: 6,
-  }
-});

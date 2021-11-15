@@ -5,13 +5,14 @@ const { width, height } = Dimensions.get('screen');
 
 
 export const CARD = {
-  // TODO: REINSTATE FOR FINAL PRODUCT
-  // WIDTH: width * 0.9,
-  // HEIGHT: height * 0.78,
-  // TODO: DELETE FOR FINAL PRODUCT
-  WIDTH: 500,
-  HEIGHT: 900,
   BORDER_RADIUS: 20,
+  // TODO: REINSTATE FOR FINAL PRODUCT
+  // HEIGHT: height * 0.78,
+  // WIDTH: width * 0.9,
+  // TODO: DELETE FOR FINAL PRODUCT
+  HEIGHT: 900,
+  WIDTH: 500,
+  
 };
 
 export const COLORS = {

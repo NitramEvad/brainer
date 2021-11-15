@@ -30,49 +30,112 @@ export default function App () {
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (_, { dx, dy, y0 }) => {
       swipe.setValue({ x: dx, y: dy });
-      tiltSign.setValue(y0 > CARD.HEIGHT /2 ? 1 : -1 )
+      tiltSign.setValue(y0 > CARD.HEIGHT / 2 ? 1 : -1 )
     },
     onPanResponderRelease: (_, { dx, dy }) => {
       
-    const direction = Math.sign(dx);
-    const isActionActive = Math.abs(dx) > 100;
+    const directionX = Math.sign(dx);
+    const isActionActiveX = Math.abs(dx) > 100;
+      
+    const directionY = Math.sign(dy);
+    const isActionActiveY = Math.abs(dy) > 100;
 
-    if (isActionActive) {
-      Animated.timing(swipe, {
-        duration: 200,
-        toValue: {
-          x: direction * 500,
-          y: dy, 
-        },
-        useNativeDriver: true,
-        friction: 5,
-      }).start(removeTopCard)
-    } else {
-      Animated.spring(swipe, {
-        toValue: {
-          x: 0,
-          y: 0,
-        },
-        useNativeDriver: true,
-        friction: 5,
-      }).start();
-    } 
+      if (isActionActiveX) {
+        Animated.timing(swipe, {
+          duration: 200,
+          toValue: {
+            x: directionX * 500,
+            y: dy, 
+          },
+          useNativeDriver: true,
+          friction: 5,
+        }).start(removeTopCard)
+      } else {
+        Animated.spring(swipe, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          friction: 5,
+        }).start();
+      } 
+      
+      if (isActionActiveY) {
+        Animated.timing(swipe, {
+          duration: 200,
+          toValue: {
+            x: directionY * 500,
+            y: dy, 
+          },
+          friction: 5,
+        }).start(removeTopCard)
+      } else {
+        Animated.spring(swipe, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          useNativeDriver: true,
+          friction: 5,
+        }).start();
+      } 
     },
   });
 
   // RMOVES CARD ON COMPLETE SWIPE
   const removeTopCard = useCallback(() => { 
+    // TODO: UPDAE CARD DETAILS AND INDEX
     setCards((prevState) => prevState.slice(1))
-    swipe.setValue({x: 0, y: 0})
+    swipe.setValue({ x: 0, y: 0 })
   },[swipe])
   
-  const handleChoice = useCallback((direction) => {
+  const handleChoiceX = useCallback((direction) => {
     Animated.timing(swipe.x, {
       toValue: direction * 500,
-      duration: 400,
-      useNativeDriver: true,
+      duration: 600,
     }).start(removeTopCard)
   }, [removeTopCard, swipe.x])
+
+  const handleChoiceY = useCallback((direction) => {
+    Animated.timing(swipe.y, {
+      toValue: direction * 700,
+      duration: 600,
+    }).start(removeTopCard)
+  }, [removeTopCard, swipe.y])
+
+  // UPDATES CARD DETAILS ON SWIPE
+  function updateCardDetails (swipe) {
+    // TODO: change "cards" to "data"
+    cards[cardIndex].times_viewed += 1;
+    cards[cardIndex].last_viewed = Date.now();
+    cards[cardIndex].score = SCORES_SORTABLE[`${swipe}`];
+    cards[cardIndex][`count_${swipe}`] += 1;
+  }
+
+  function handleLeftSwipe () {
+    console.log('LEFT - easy');
+    updateCardDetails('easy');
+  }
+  
+  function handleRightSwipe () {
+    console.log('RIGHT - hard');
+    updateCardDetails('hard');
+  }
+
+  function handleuPSwipe () {
+    console.log('UP - moderate');
+    updateCardDetails('moderate');
+  }
+  
+  function handledOWNSwipe () {
+    console.log('DOWN - redo');
+    updateCardDetails('redo');
+  }
+
+  function handleFlip () {
+    console.log('FLIP clicked')
+    setIsFlipped(isFlipped ? false : true)
+  }
 
 
   return (
@@ -98,8 +161,7 @@ export default function App () {
         }).reverse()}
       </View>
       <View style={styles.footer}>
-
-      <Footer handleChoice={handleChoice}/>
+        <Footer handleChoiceX={handleChoiceX} handleChoiceY={handleChoiceY}/>
       </View>
     </View>
   );
