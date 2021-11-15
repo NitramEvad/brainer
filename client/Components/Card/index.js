@@ -23,9 +23,6 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} 
   // CARD FLIP ACTION
   const [isFlipped, setIsFlipped] = useState(false);
     
-  // TODO: ON TAP OF CARD, FLIP QUESTION TEXT TO SHOW ANSWER TEXT
-  
-  // TODO: BEFORE MOVING TO NEXT CARD SETISFLIPPED(FALSE) AGAIN
   function handleFlip (event) {
     if (event.nativeEvent.state === State.ACTIVE) {
       console.log('FLIP clicked')

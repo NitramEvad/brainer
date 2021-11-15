@@ -5,7 +5,7 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import data from './data.js';
 import Card from './Components/Card';
-import { CARD } from './Constants/constants';
+import { CARD, SCORES_SORTABLE } from './Constants/constants';
 // TODO: ATTEMPT TO IMPLEMENT VISUAL FLIP
 import CardFlip from 'react-native-card-flip';
 
@@ -20,6 +20,7 @@ export default function App () {
 
   //  TODO: REMOVE
   console.table(cards);
+  console.table(data);
 
   // ACTION ON CARD STACK BEING EMPTIED -> RESTACK
   // TODO: SETCARDS AS TWO HIGHEST SCORING CARDS
@@ -56,7 +57,7 @@ export default function App () {
           friction: 5,
           useNativeDriver: false,
           // TODO: REWORK
-        }).start(nextCardX)
+        }).start(recordEasyHard)
       } else {
         Animated.spring(swipe, {
           toValue: {
@@ -78,7 +79,7 @@ export default function App () {
           friction: 5,
           useNativeDriver: false,
           // TODO: REWORK
-        }).start(nextCardY)
+        }).start(recordModRedo)
       } else {
         Animated.spring(swipe, {
           toValue: {
@@ -95,20 +96,18 @@ export default function App () {
   // RMOVES CARD ON COMPLETE SWIPE
 
   
-  const nextCardX = () => {
-    if (swipe.x._value < -50 ) console.log('xSWIPE - hard')
-    if (swipe.x._value > 50 ) console.log('xSWIPE - easy')
-
-    setCards((prevState) => prevState.slice(1))
+  const recordEasyHard = () => {
+    if (swipe.x._value < -50 ) updateCardDetails('hard');
+    if (swipe.x._value > 50 ) updateCardDetails('easy');
     swipe.setValue({ x: 0, y: 0 })
+    setCards((prevState) => prevState.slice(1))
   }
 
-  const nextCardY = () => {
-    if (swipe.y._value > 499) console.log('ySWIPE - redo/again/down')
-    if (swipe.y._value < -499) console.log('ySWIPE - star/moderate/up')
-
-    setCards((prevState) => prevState.slice(1))
+  const recordModRedo = () => {
+    if (swipe.y._value > 499) updateCardDetails('redo');
+    if (swipe.y._value < -499) updateCardDetails('moderate');
     swipe.setValue({ x: 0, y: 0 })
+    setCards((prevState) => prevState.slice(1))
   }
 
   // OLD REMOVE TOPCARD USING USECALLBACK() FUNCTION - MAY BE BETTER
@@ -123,15 +122,15 @@ export default function App () {
     Animated.timing(swipe.x, {
       toValue: direction * 500,
       duration: 600,
-    }).start(nextCardX)
-  }, [nextCardX, swipe.x])
+    }).start(recordEasyHard)
+  }, [recordEasyHard, swipe.x])
   
   const handleChoiceY = useCallback((direction) => {
     Animated.timing(swipe.y, {
       toValue: direction * 700,
       duration: 600,
-    }).start(nextCardY)
-  }, [nextCardY, swipe.y])
+    }).start(recordModRedo)
+  }, [recordModRedo, swipe.y])
   
 
   const markCard = () => {
@@ -142,37 +141,16 @@ export default function App () {
   // UPDATES CARD DETAILS ON SWIPE
   function updateCardDetails (swipe) {
     // TODO: change "cards" to "data"
-    cards[cardIndex].times_viewed += 1;
-    cards[cardIndex].last_viewed = Date.now();
-    cards[cardIndex].score = SCORES_SORTABLE[`${swipe}`];
-    cards[cardIndex][`count_${swipe}`] += 1;
+    const index = data.map(e => e._id).indexOf(cards[0]._id)
+    console.log('INDEX', index)
+    console.log('SCORE: ', SCORES_SORTABLE[`${swipe}`])
+    
+    data[index].times_viewed += 1;
+    data[index].last_viewed = Date.now();
+    data[index].score = SCORES_SORTABLE[`${swipe}`];
+    data[index][`count_${swipe}`] += 1;
   }
   
-  function handleLeftSwipe () {
-    console.log('LEFT - easy');
-    updateCardDetails('easy');
-  }
-  
-  function handleRightSwipe () {
-    console.log('RIGHT - hard');
-    updateCardDetails('hard');
-  }
-
-  function handleuPSwipe () {
-    console.log('UP - moderate');
-    updateCardDetails('moderate');
-  }
-  
-  function handledOWNSwipe () {
-    console.log('DOWN - redo');
-    updateCardDetails('redo');
-  }
-
-  function handleFlip () {
-    console.log('FLIP clicked')
-    setIsFlipped(isFlipped ? false : true)
-  }
-
 
   return (
     <View style={styles.container}>

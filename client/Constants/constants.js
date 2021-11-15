@@ -27,7 +27,7 @@ export const SCORES = {
   easy: 50,
   moderate: 30,
   hard: 20,
-  again: 10,
+  redo: 10,
 };
 
 export const SCORES_SORTABLE = {
@@ -35,5 +35,5 @@ export const SCORES_SORTABLE = {
   easy: Number(`${SCORES.easy}${Date.now()}`),
   moderate: Number(`${SCORES.moderate}${Date.now()}`),
   hard: Number(`${SCORES.hard}${Date.now()}`),
-  again: Number(`${SCORES.again}${Date.now()}`),
+  redo: Number(`${SCORES.redo}${Date.now()}`),
 }
