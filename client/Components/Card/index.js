@@ -1,55 +1,62 @@
 import { styles } from './styles'
 import React, {useCallback, useState, useEffect, } from 'react';
-import { Animated, Button, View, Text, Image, StyleSheet } from 'react-native';
-import CardFlip from 'react-native-card-flip';
+import { Animated, Button, View, Text, Image } from 'react-native';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
-import data from '../../data';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swipes from '../Swipes'
+import CardFlip from 'react-native-card-flip';
+import data from '../../data';
 
+// CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
 // TODO: multiple invocations is causing bugs
 TimeAgo.addDefaultLocale(en);
+
 const timeAgo = new TimeAgo('en-US')
 function lastViewedStr (timeStamp) {
   return timeAgo.format(Date.now() - (Date.now() - timeStamp))
 }
 
+
 export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest} ) {
 
-
-
+  // ROTATION FACTOR WHEN DRAGGING CARDS
   const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
     inputRange: [-100, 0, 100],
-    outputRange: ['10deg', '0deg', '-8deg'],
+    outputRange: ['10deg', '0deg', '-10deg'],
   });
 
+  // FADE-IN/FADE-OUT OF CORNER TAGS AS ITEM IS DRAGGED
+  // TODO: ADD FOR REDO AND MODERATE (UP/DOWN) DRAGS
   const easyOpacity = swipe.x.interpolate({
-    inputRange: [30, 100],
-    outputRange: [0, 1],
     extrapolate: 'clamp',
+    inputRange: [30, 300],
+    outputRange: [0, 1],
   })
 
   const hardOpacity = swipe.x.interpolate({
-    inputRange: [-100, -30],
-    outputRange: [1, 0],
     extrapolate: 'clamp',
+    inputRange: [-300, -30],
+    outputRange: [1, 0],
   })
 
   const animatedCardStyle = {
     transform: [...swipe.getTranslateTransform(), { rotate }],
   };
 
+  // CORNER LABELS "EASY", "HARD", "REDO", "AGAIN"
   const showSwipes = useCallback(() => {
     return (
-        <>
-          <Animated.View style={[styles.swipesBox, styles.easyBox, { opacity: easyOpacity }]}>
+      <>
+        <Animated.View
+          style={[styles.swipesBox, styles.easyBox, { opacity: easyOpacity }]}>
               <Swipes type="easy"/>
-          </Animated.View>
-          <Animated.View style={[styles.swipesBox, styles.hardBox, { opacity: hardOpacity }]}>
+        </Animated.View>
+        <Animated.View
+          style={[styles.swipesBox, styles.hardBox, { opacity: hardOpacity }]}>
             <Swipes type="hard"/>
-          </Animated.View>
-        </>
+        </Animated.View>
+      </>
     );
   }, [easyOpacity, hardOpacity]);
   

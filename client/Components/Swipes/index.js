@@ -16,7 +16,7 @@ export default function Swipes ({ type }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'hsla(0,0%,0%,0.2)'
+    backgroundColor: 'hsla(0,0%,0%,0.2)',
     borderRadius: 15,
     borderWidth: 6,
     paddingHorizontal: 15,
