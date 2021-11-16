@@ -9,8 +9,9 @@ import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 import { useFonts, } from '@expo-google-fonts/inter';
 
-import CardFlip from 'react-native-card-flip';
-import GestureFlipView from 'react-native-gesture-flip-card';
+// import CardFlip from 'react-native-card-flip';
+// import GestureFlipView from 'react-native-gesture-flip-card';
+// import FlipCard from 'react-native-flip-card';
 
 
 // CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
@@ -27,6 +28,7 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
   
   let [fontsLoaded] = useFonts({
     'aad': require('../../assets/fonts/ArchitectsDaughter-Regular.ttf'),
+    'asr': require('../../assets/fonts/AllertaStencil-Regular.ttf'),
   });
 
   // CARD FLIP ACTION
@@ -133,21 +135,18 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
 
               <View style={styles.stats}>
                 {/* TODO: REMOVE BEFORE DEPLOYMENT */}
-                <View style={styles.countsRow}>
-                  <Text style={styles.pill}>Card ID: {card._id}</Text>
+                <View style={styles.countsColumn}>
+                  {/* <Text style={styles.pill}>Card ID: {card._id}</Text> */}
                   <Text style={styles.pill}>Score: {card.score}</Text>
-                </View>
-
-                <View style={styles.countsRow}>
                   <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
-                  <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
+                  <Text style={styles.pill}>Last: Viewed:{'\n'}{lastViewedStr(card.last_viewed)}</Text>
                 </View>
 
-                <View style={styles.countsRow}>
+                <View style={styles.countsColumn}>
                   <Text style={styles.pill}>Easy: {card.count_easy}</Text>
                   <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
                   <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-                  <Text style={styles.pill}>Again: {card.count_again}</Text>
+                  <Text style={styles.pill}>Again: {card.count_redo}</Text>
                 </View>
               </View>
             </View>

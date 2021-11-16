@@ -78,18 +78,20 @@ export const styles = StyleSheet.create({
   },  
   
   question: {
+    fontFamily: 'asr',
     position: 'absolute',
     transform: [{rotate: '-30deg'}],
-    fontSize: 18,
+    fontSize: 24,
     left: -170,
     top: -10,
   },
 
   answer: {
+    fontFamily: 'asr',
     position: 'absolute',
     transform: [{rotate: '30deg'}],
-    fontSize: 18,
-    left: 100,
+    fontSize: 24,
+    left: 80,
     top: -10,
     },
 
@@ -109,33 +111,26 @@ export const styles = StyleSheet.create({
     textShadowRadius: 10,
   },
 
-  // TODO: Make sticky to bottom of card
-  statsBlock: {
-    flexDirection:'column',
-    // position: 'absolute',
-    // TODO: CHANGE TO 480 ONCE COUNTSROW IS DELETED
-    // top: 230,
-    bottom: 10,
-  },
-  
+
   stats: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
     justifyContent: 'flex-end',
   },
 
-  countsRow: {
-    alignItems: 'center',
+  countsColumn: {
     bottom: -30,
-    flexDirection: 'row',
     justifyContent: 'space-between',
     
   },
 
   pill: {
+    textAlign: 'right',
+    fontFamily: 'asr',
     borderRadius: 10,
     borderStyle: 'solid',
     borderWidth: 1,
-    fontSize:14,
+    fontSize:12,
     margin: 2,
     marginTop: 1,
     padding: 1,
