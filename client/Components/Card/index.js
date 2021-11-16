@@ -149,7 +149,7 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
                   <Text style={styles.pill}>Easy: {card.count_easy}</Text>
                   <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
                   <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-                  <Text style={styles.pill}>Redo: {card.redo}</Text>
+                  <Text style={styles.pill}>Redo: {card.count_redo}</Text>
                 </View>
               </View>
             </View>
