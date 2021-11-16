@@ -111,26 +111,34 @@ export const styles = StyleSheet.create({
     textShadowRadius: 10,
   },
 
-
+  // TODO: Make sticky to bottom of card
+  statsBlock: {
+    flexDirection:'column',
+    // position: 'absolute',
+    // TODO: CHANGE TO 480 ONCE COUNTSROW IS DELETED
+    // top: 230,
+    bottom: 10,
+  },
+  
   stats: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
+    flexDirection: 'column',
     justifyContent: 'flex-end',
   },
 
-  countsColumn: {
+  countsRow: {
+    alignItems: 'center',
     bottom: -30,
+    flexDirection: 'row',
     justifyContent: 'space-between',
     
   },
 
   pill: {
-    textAlign: 'right',
-    fontFamily: 'asr',
+    
     borderRadius: 10,
     borderStyle: 'solid',
     borderWidth: 1,
-    fontSize:12,
+    fontSize:14,
     margin: 2,
     marginTop: 1,
     padding: 1,

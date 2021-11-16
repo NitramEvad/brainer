@@ -135,18 +135,21 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
 
               <View style={styles.stats}>
                 {/* TODO: REMOVE BEFORE DEPLOYMENT */}
-                <View style={styles.countsColumn}>
-                  {/* <Text style={styles.pill}>Card ID: {card._id}</Text> */}
+                <View style={styles.countsRow}>
+                  <Text style={styles.pill}>Card ID: {card._id}</Text>
                   <Text style={styles.pill}>Score: {card.score}</Text>
-                  <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
-                  <Text style={styles.pill}>Last: Viewed:{'\n'}{lastViewedStr(card.last_viewed)}</Text>
                 </View>
 
-                <View style={styles.countsColumn}>
+                <View style={styles.countsRow}>
+                  <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
+                  <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
+                </View>
+
+                <View style={styles.countsRow}>
                   <Text style={styles.pill}>Easy: {card.count_easy}</Text>
                   <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
                   <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-                  <Text style={styles.pill}>Again: {card.count_redo}</Text>
+                  <Text style={styles.pill}>Redo: {card.redo}</Text>
                 </View>
               </View>
             </View>
