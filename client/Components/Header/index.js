@@ -6,7 +6,6 @@ import { COLORS } from '../../Constants/constants';
 
 function brainPress () {
   // TODO: DECK MANAGER SCREEN TO BE IMPLEMENTED
-  // TODO: TEMPORARILY ASSIGN TO FLIP ACTION
   console.log('Deck manager screen - still to be implemented')
 }
 function profilePress () {

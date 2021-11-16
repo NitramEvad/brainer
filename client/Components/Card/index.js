@@ -8,14 +8,17 @@ import Swipes from '../Swipes';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 import { useFonts, } from '@expo-google-fonts/inter';
+import data from '../../data.js';
 
+// TODO: IMPLEMENT CARD FLIP ANIMATION 
+// TODO: STRUGGLING TO MAKE THIS WORK WITH FUNCTIONAL APPROACH
 // import CardFlip from 'react-native-card-flip';
+// TODO: G-F-V WON'T WORK AS GESTURES CONFLICT WITH SWIPES
 // import GestureFlipView from 'react-native-gesture-flip-card';
+// TODO: R-N-F-C PACKAGE SEEMS TO BE BROKEN
 // import FlipCard from 'react-native-flip-card';
 
-
-// CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
-// TODO: MULTIPLE INVOCATIONS IS CAUSING ERRORS
+// TODO: MULTIPLE INVOCATIONS OF TIMEAGO IS CAUSING ERRORS
 TimeAgo.addDefaultLocale(en);
 
 const timeAgo = new TimeAgo('en-US');
@@ -27,7 +30,7 @@ function lastViewedStr (timeStamp) {
 export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }) {
   
   let [fontsLoaded] = useFonts({
-    'aad': require('../../assets/fonts/ArchitectsDaughter-Regular.ttf'),
+    'adr': require('../../assets/fonts/ArchitectsDaughter-Regular.ttf'),
     'asr': require('../../assets/fonts/AllertaStencil-Regular.ttf'),
   });
 
@@ -36,7 +39,6 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
     
   function handleFlip (event) {
     if (event.nativeEvent.state === State.ACTIVE) {
-      // console.log('FLIP clicked')
       setIsFlipped(isFlipped ? false : true)
     }
   }
@@ -134,22 +136,21 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
               </View>
 
               <View style={styles.stats}>
-                {/* TODO: REMOVE BEFORE DEPLOYMENT */}
                 <View style={styles.countsRow}>
-                  <Text style={styles.pill}>Card ID: {card._id}</Text>
-                  <Text style={styles.pill}>Score: {card.score}</Text>
+                  <Text style={styles.pill}>Deck size:{'\n'}{data.length}</Text>
+                  <Text style={styles.pill}>Viewed:{'\n'}{lastViewedStr(card.last_viewed)}</Text>
                 </View>
 
                 <View style={styles.countsRow}>
-                  <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
-                  <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
+                  <Text style={styles.pill}>Last Swipe:{'\n'}{card.last_swipe}</Text>
+                  <Text style={styles.pill}>Times Viewed:{'\n'}{card.times_viewed}</Text>
                 </View>
 
                 <View style={styles.countsRow}>
-                  <Text style={styles.pill}>Easy: {card.count_easy}</Text>
-                  <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
-                  <Text style={styles.pill}>Hard: {card.count_hard}</Text>
-                  <Text style={styles.pill}>Redo: {card.count_redo}</Text>
+                  <Text style={styles.pill}>Easy:{'\n'}{card.count_easy}</Text>
+                  <Text style={styles.pill}>Moderate:{'\n'}{card.count_moderate}</Text>
+                  <Text style={styles.pill}>Hard:{'\n'}{card.count_hard}</Text>
+                  <Text style={styles.pill}>Redo:{'\n'}{card.count_redo}</Text>
                 </View>
               </View>
             </View>

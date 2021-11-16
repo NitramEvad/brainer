@@ -3,28 +3,17 @@ import { StyleSheet, TouchableOpacity, View, } from 'react-native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { COLORS } from '../../Constants/constants';
 
-// BUTTON HANDLERS
-// TODO: OPERATE AS ALTERNATIVES TO SWIPE ACTIONS
-function redoPress () {
-  console.log('REDO PRESS - still to be implemented');
-}
-
-function starPress () {
-  console.log('CROSS PRESS - still to be implemented');
-}
-
-  
 export default function Footer ( {handleChoiceX, handleChoiceY}) {
   
   return (
     <View style={styles.container}>
 
       <TouchableOpacity style={styles.button} >
-        <FontAwesome name="times" size={25} color={COLORS.hard} onPress={() => handleChoiceX(-1)}></FontAwesome>
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.button} >
         <FontAwesome5 name="redo" size={25} color={COLORS.redo} onPress={() => handleChoiceY(1)}></FontAwesome5>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} >
+        <FontAwesome name="times" size={25} color={COLORS.hard} onPress={() => handleChoiceX(-1)}></FontAwesome>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} >
@@ -47,6 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     justifyContent: 'space-around',
+    // TODO: Z-INDEX DOESN'T SEEM TO PREVENT CARDS FROM SLIDING UNDER, RATHER THAN OVER, FOOTER
     zIndex: -1,
   },
 

@@ -93,24 +93,24 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     left: 80,
     top: -10,
-    },
-
+  },
+  
   questionMain: {
     marginTop: 30,
   },
   
   textMain: {
     textAlign: 'center',
-    fontFamily: 'aad',
+    fontFamily: 'adr',
     fontSize: 35,
   },
-
+  
   textShadow: {
     textShadowColor: 'grey',
     textShadowOffset: { width: 2, height: 2},
     textShadowRadius: 10,
   },
-
+  
   // TODO: Make sticky to bottom of card
   statsBlock: {
     flexDirection:'column',
@@ -124,7 +124,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
-
+  
   countsRow: {
     alignItems: 'center',
     bottom: -30,
@@ -132,13 +132,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     
   },
-
+  
   pill: {
-    
+    fontFamily: 'asr',
+    textAlign: 'center',
     borderRadius: 10,
     borderStyle: 'solid',
     borderWidth: 1,
-    fontSize:14,
+    fontSize:13,
     margin: 2,
     marginTop: 1,
     padding: 1,

@@ -6,49 +6,32 @@ import Footer from './Components/Footer';
 import data from './data.js';
 import Card from './Components/Card';
 import { CARD, SCORES, } from './Constants/constants';
+
 // TODO: ATTEMPT TO IMPLEMENT VISUAL FLIP
 import CardFlip from 'react-native-card-flip';
 
 export default function App () {
 
-  const [cards, setCards] = useState(data);
-  const [cardIndex, setCardIndex] = useState(0);
+  const [deck, setDeck] = useState([...data].sort((a,b) => a.score - b.score));
+  const [cards, setCards] = useState(deck.slice(0,2));
 
-  const swipe = useRef(new Animated.ValueXY()).current;
-  const tiltSign = useRef(new Animated.Value(1)).current;
+console.table(deck)
+console.table(cards)
 
-  //  TODO: REMOVE
-  console.table(cards);
-  console.table(data);
-
-  // ACTION ON CARD STACK BEING EMPTIED -> RESTACK
-  // TODO: SETCARDS AS TWO HIGHEST SCORING CARDS
-  // TODO: IMPLEMENT NEXTCARD INSTEAD OF REACHING BOTTOM
-  // TODO: CHANGE FROM CARDS.LENGTH TO ALL CARDS HAVE SCORE OF <X OR HAVE BEEN VIEWED X-TIMES TODAY
   useEffect(() => {
+    // console.table('DATA');
+    // console.table(data);
+    // console.table('CARDS');
+    // console.table(cards);
+
+    // TODO: LEGACY OF OLD DESIGN WHERE DECK EMPTIED AND REBUILT - NO LONGER NECESSARY
     if (!cards.length) {
-      setCards(data);
+      // setCards(data.sort((a,b) => b.score - a.score));
     }
   }, [cards.length]);
 
-  // SWIPE ACTION-EVERY TIME CARDS IS SLICED
-  useEffect(() => {
-    console.log('SWIPED!')
-  }, [cards.length]);
-
-  // TODO: ATTEMPT AT APPLYING ALGO TO POPUATION OF CARD DECK
-  // TODO: MAYBE A RE-SORT OF CARDS BY SCORE ON EACH SWIPE?
-  // const resetValues = () => {
-  //   swipe.setValue({ x: 0, y: 0 });
-  //   let nextCard = data.reduce(function (min, obj) {
-  //     return obj.score < min.score ? obj : min;
-  //   })
-  //   setCards((prevState) => {
-  //     prevState.slice(1)
-  //     prevState.push(nextCard)
-  //     }
-  //   )
-  // }
+  const swipe = useRef(new Animated.ValueXY()).current;
+  const tiltSign = useRef(new Animated.Value(1)).current;
 
   // CARD PANNING ANIMATION
   const panResponder = PanResponder.create({
@@ -136,23 +119,53 @@ export default function App () {
   }, [recordModRedo, swipe.y])
   
   
-  // UPDATES CARD DETAILS ON SWIPE
+  // UPDATE CARD DETAILS ON SWIPE - THEN CALL RESETVALUES()
   function updateCardDetails (swipe) {
     const index = data.map(e => e._id).indexOf(cards[0]._id)
-    data[index].times_viewed += 1;
-    data[index].last_viewed = Date.now();
-    data[index].score = Number('' + SCORES[`${swipe}`] + Date.now());
     data[index][`count_${swipe}`] += 1;
-    resetValues();
-  }
-  
-  // RESET CARDS
-  const resetValues = () => {
-    swipe.setValue({ x: 0, y: 0 });
-    setCards((prevState) => prevState.slice(1)
-    )
+    data[index].last_swipe = swipe;
+    data[index].times_viewed += 1;
+    // TODO: use delay to +/- priority (cards not seen recently will be bumped up)
+    data[index].days_delay = Math.floor((Date.now() - data[index].last_viewed)/1000);
+    data[index].last_viewed = Date.now();
+    // data[index].score = Number('' + SCORES[`${swipe}`] + Math.floor(Math.random() * 3 + 0));
+    // data[index].score = SCORES[`${swipe}`];
+    data[index].score = Number('' + SCORES[`${swipe}`] + Date.now());
+    data[index].priority = Number('' + SCORES[`${swipe}`] + Math.floor(Math.random() * 10 + 10));
+    flickCard();
   }
 
+  const flickCard = () => {
+    swipe.setValue({ x: 0, y: 0 });
+    setNewDeck()
+  }
+
+  const setNewDeck = () => {
+    // setCards((prevState) => prevState.slice(1))
+    console.table(deck)
+    let twoCards = cards.slice(1);
+    console.table(twoCards)
+
+    // TODO: INSERT NEW LOGIC FOR SELECTING NEXT CARD FROM LIST
+    // TODO: -----
+    // let newCard = data[Math.floor(Math.random() * 8)];
+
+    setDeck(deck.sort((a, b) => a.score - b.score))
+    console.log(deck)
+    let nextCard;
+    if (twoCards[0]._id === deck[0]._id) {
+      console.table(deck[1])
+      nextCard = deck[1]
+    } else {
+      console.table(deck[0])
+      nextCard = deck[0]
+    }
+    
+    // TODO: -----
+    twoCards.push(nextCard);
+    console.table(twoCards)
+    setCards(twoCards)
+  }
 
 
     return (
@@ -165,7 +178,7 @@ export default function App () {
               const dragHanders = isFirst ? panResponder.panHandlers : {};
               return (
                 <Card
-                  key={card._id}
+                  key={index}
                   card={card}
                   index={index}
                   isFirst={isFirst}
@@ -192,7 +205,7 @@ const styles = StyleSheet.create({
   },
   cardArea: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'hsl(0, 0%, 100%)',
     flex: 1,
   },
 
