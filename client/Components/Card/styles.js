@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     // TODO: FIX: SHADOW NOT WORKING
     // shadowColor: 'grey',
     // shadowOffset: {
-    //   height: 10,
+    //   height: 5,
     //   width: 5,
     // },
     // elevation: 11,
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   
   moderateTag: {
     left: '20%',
-    top: 400,
+    top: 370,
     transform: [{rotate: '-10deg'}],
   },
 
@@ -66,21 +66,41 @@ export const styles = StyleSheet.create({
   },
 
   // FLASH CARD CONTENTS
-
+  // TODO: FIX TEXT SKEWING TO THE LEFT
   textContent: {
     position: 'absolute',
     alignItems: 'center',
-    top: 30,
+    top: 15,
     padding: 10,
+    height: 578,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },  
   
+  question: {
+    position: 'absolute',
+    transform: [{rotate: '-30deg'}],
+    fontSize: 18,
+    left: -170,
+    top: -10,
+  },
+
+  answer: {
+    position: 'absolute',
+    transform: [{rotate: '30deg'}],
+    fontSize: 18,
+    left: 100,
+    top: -10,
+    },
+
   questionMain: {
+    marginTop: 30,
   },
   
   textMain: {
     textAlign: 'center',
     fontFamily: 'aad',
-    fontSize: 30,
+    fontSize: 35,
   },
 
   textShadow: {
@@ -91,8 +111,16 @@ export const styles = StyleSheet.create({
 
   // TODO: Make sticky to bottom of card
   statsBlock: {
-    position: 'absolute',
-    top: 400,
+    flexDirection:'column',
+    // position: 'absolute',
+    // TODO: CHANGE TO 480 ONCE COUNTSROW IS DELETED
+    // top: 230,
+    bottom: 10,
+  },
+  
+  stats: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 
   countsRow: {
@@ -108,8 +136,9 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     fontSize:14,
-    margin: 4,
-    padding: 5,
+    margin: 2,
+    marginTop: 1,
+    padding: 1,
     paddingLeft: 10,
     paddingRight: 10,
   },

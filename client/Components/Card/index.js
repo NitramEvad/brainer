@@ -6,11 +6,11 @@ import en from 'javascript-time-ago/locale/en.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swipes from '../Swipes';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
-import CardFlip from 'react-native-card-flip';
-
 import AppLoading from 'expo-app-loading';
 import { useFonts, } from '@expo-google-fonts/inter';
 
+import CardFlip from 'react-native-card-flip';
+import GestureFlipView from 'react-native-gesture-flip-card';
 
 
 // CONVERTS "LAST VIEWED" FROM TIMESTAMP TO "X AGO"
@@ -34,7 +34,7 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
     
   function handleFlip (event) {
     if (event.nativeEvent.state === State.ACTIVE) {
-      console.log('FLIP clicked')
+      // console.log('FLIP clicked')
       setIsFlipped(isFlipped ? false : true)
     }
   }
@@ -103,35 +103,46 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
     return <AppLoading />;
   } else {
     return (
-      <TapGestureHandler onHandlerStateChange={handleFlip}
-      >
+      <TapGestureHandler onHandlerStateChange={handleFlip} >
 
         <Animated.View style={[styles.container, isFirst && animatedCardStyle]} {...rest} >
-
-          {/* TODO: WRAP IN TOUCHABLE WITH A "FLIP" ACTION */}
-          {/* <Button title='FLIP' onPress={() => handleFlip()} /> */}
 
           <Image source={require('../../assets/paper3.jpg')} style={styles.image} />
           <LinearGradient colors={['transparent', 'grey']} style={styles.gradient} />
 
           <View style={styles.textContent} >
-            <View style={styles.questionMain}>
-              <Text style={[styles.textMain, styles.textShadow]}>
-                {isFlipped ? card.answer_main : card.front_field_main}
-              </Text>
-            
-            </View>
+              <View>
+                {isFlipped && <Text style={styles.answer}>
+                  Answer
+                </Text>}
 
-            <View style={styles.statsBlock}>
+                {!isFlipped && <Text style={styles.question}>
+                  Question
+                </Text>}
+              </View>
+
+              <View style={styles.questionMain}>
+                {isFlipped && <Text style={[styles.textMain, styles.textShadow]}>
+                  {card.answer_main}
+                </Text>}
+
+                {!isFlipped && <Text style={[styles.textMain, styles.textShadow]}>
+                  {card.front_field_main}
+                </Text>}
+              </View>
+
               <View style={styles.stats}>
+                {/* TODO: REMOVE BEFORE DEPLOYMENT */}
                 <View style={styles.countsRow}>
                   <Text style={styles.pill}>Card ID: {card._id}</Text>
                   <Text style={styles.pill}>Score: {card.score}</Text>
                 </View>
+
                 <View style={styles.countsRow}>
                   <Text style={styles.pill}>Times Viewed: {card.times_viewed}</Text>
                   <Text style={styles.pill}>Last: Viewed: {lastViewedStr(card.last_viewed)}</Text>
                 </View>
+
                 <View style={styles.countsRow}>
                   <Text style={styles.pill}>Easy: {card.count_easy}</Text>
                   <Text style={styles.pill}>Moderate: {card.count_moderate}</Text>
@@ -140,7 +151,6 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
                 </View>
               </View>
             </View>
-          </View>
 
           {
             isFirst && showSwipes()
@@ -148,7 +158,6 @@ export default function Card ({ card, index, isFirst, swipe, tiltSign, ...rest }
         
         </Animated.View>
       </TapGestureHandler>
-
     )
   }
 }

@@ -5,6 +5,8 @@ const cors = require('cors');
 const app = express();
 const router = require('./router');
 
+require ('dotenv').config()
+
 const db = require('./models/index.js'); 
 
 app.use(cors());

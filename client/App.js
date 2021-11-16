@@ -11,8 +11,6 @@ import CardFlip from 'react-native-card-flip';
 
 export default function App () {
 
-
-
   const [cards, setCards] = useState(data);
   const [cardIndex, setCardIndex] = useState(0);
 
