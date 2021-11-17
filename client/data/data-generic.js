@@ -1,7 +1,7 @@
 
-const data = [
+const dataGeneric = [
   {
-    "front_field_main": "1 The Harvard architecture for micro-controllers added which additional bus?",
+    "front_field_main": "The Harvard architecture for micro-controllers added which additional bus?",
     "answer_main": "Instruction",
     "count_easy": 0,
     "count_moderate": 0,
@@ -19,7 +19,7 @@ const data = [
     "_id": 137,
   },
   {
-    "front_field_main": "2 Which company was established on April 1st, 1976 by Steve Jobs, Steve Wozniak and Ronald Wayne?",
+    "front_field_main": "Which company was established on April 1st, 1976 by Steve Jobs, Steve Wozniak and Ronald Wayne?",
     "answer_main": "Apple",
     "count_easy": 0,
     "count_moderate": 0,
@@ -37,7 +37,7 @@ const data = [
     "_id": 256,
   },
   {
-    "front_field_main": "3 An octopus can fit through any hole larger than its beak. True or false?",
+    "front_field_main": "An octopus can fit through any hole larger than its beak. True or false?",
     "answer_main": "True",
     "count_easy": 0,
     "count_moderate": 0,
@@ -55,7 +55,7 @@ const data = [
     "_id": 21,
   },
   {
-    "front_field_main": "4 LOWEST Ada Lovelace is often considered the first computer programmer. True or false?",
+    "front_field_main": "Ada Lovelace is often considered the first computer programmer. True or false?",
     "answer_main": "True - low",
     "count_easy": 0,
     "count_moderate": 0,
@@ -73,7 +73,7 @@ const data = [
     "_id": 183,
   },
   {
-      "front_field_main": "5 What is the largest freshwater lake by volume? Lake Superior, Lake Huron, Lake Michigan, Lake Baikal,",
+      "front_field_main": "What is the largest freshwater lake by volume? Lake Superior, Lake Huron, Lake Michigan, Lake Baikal,",
     "answer_main": "Lake Baikal",
     "count_easy": 0,
     "count_moderate": 0,
@@ -91,8 +91,8 @@ const data = [
     "_id": 1114,
   },
   {
-    "front_field_main": "6 HIGHEST Greenland is a part of which kingdom?",
-    "answer_main": "Denmark - HIGH",
+    "front_field_main": "Greenland is a part of which kingdom?",
+    "answer_main": "Denmark",
     "count_easy": 0,
     "count_moderate": 0,
     "count_hard": 0,
@@ -109,7 +109,7 @@ const data = [
     "_id": 2145,
   },
   {
-    "front_field_main": "7 What was the African nation of Zimbabwe formerly known as?",
+    "front_field_main": "What was the African nation of Zimbabwe formerly known as?",
     "answer_main": "Rhodesia",
     "count_easy": 0,
     "count_moderate": 0,
@@ -127,7 +127,7 @@ const data = [
     "_id": 16,
   },
   {
-    "front_field_main": "8 MED-HIGH Which of these Japanese islands is the largest by area? Shikoku, Iki, Odaiba, Okinawa",
+    "front_field_main": "Which of these Japanese islands is the largest by area? Shikoku, Iki, Odaiba, Okinawa",
     "answer_main": "Shikoku",
     "count_easy": 0,
     "count_moderate": 0,
@@ -146,4 +146,4 @@ const data = [
   },
 ]
 
-export default data;
+export default dataGeneric;

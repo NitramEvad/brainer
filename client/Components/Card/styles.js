@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   gradient: {
     borderRadius: CARD.BORDER_RADIUS,
     bottom: 0,
-    height: 150,
+    height: 50,
     left: 0,
     position: 'absolute',
     right: 0,
@@ -55,9 +55,9 @@ export const styles = StyleSheet.create({
   },
   
   moderateTag: {
-    left: '20%',
-    top: 370,
-    transform: [{rotate: '-10deg'}],
+    left: '-10%',
+    top: 530,
+    transform: [{rotate: '30deg'}],
   },
 
   boxText: {

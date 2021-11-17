@@ -30,3 +30,9 @@ export const SCORES = {
   redo: 10,
 };
 
+export const CARD_PICKER = {
+  random: 0.25,
+  ms_days: 1000 * 60 * 60 * 24,
+  max_days: 3,
+}
+

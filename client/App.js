@@ -3,32 +3,20 @@ import { Animated, PanResponder, StyleSheet, View, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
-import data from './data.js';
+import data from './data/data-generic.js';
 import Card from './Components/Card';
-import { CARD, SCORES, } from './Constants/constants';
+import { CARD, CARD_PICKER, SCORES, } from './Constants/constants';
 
 // TODO: ATTEMPT TO IMPLEMENT VISUAL FLIP
 import CardFlip from 'react-native-card-flip';
 
 export default function App () {
 
-  const [deck, setDeck] = useState([...data].sort((a,b) => a.score - b.score));
+  const [deck, setDeck] = useState([...data].sort((a,b) => a.priority - b.priority));
   const [cards, setCards] = useState(deck.slice(0,2));
 
 console.table(deck)
 console.table(cards)
-
-  useEffect(() => {
-    // console.table('DATA');
-    // console.table(data);
-    // console.table('CARDS');
-    // console.table(cards);
-
-    // TODO: LEGACY OF OLD DESIGN WHERE DECK EMPTIED AND REBUILT - NO LONGER NECESSARY
-    if (!cards.length) {
-      // setCards(data.sort((a,b) => b.score - a.score));
-    }
-  }, [cards.length]);
 
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
@@ -125,13 +113,18 @@ console.table(cards)
     data[index][`count_${swipe}`] += 1;
     data[index].last_swipe = swipe;
     data[index].times_viewed += 1;
+
     // TODO: use delay to +/- priority (cards not seen recently will be bumped up)
-    data[index].days_delay = Math.floor((Date.now() - data[index].last_viewed)/1000);
+    data[index].days_delay = Math.floor((Date.now() - data[index].last_viewed) / CARD_PICKER.ms_days);
     data[index].last_viewed = Date.now();
-    // data[index].score = Number('' + SCORES[`${swipe}`] + Math.floor(Math.random() * 3 + 0));
-    // data[index].score = SCORES[`${swipe}`];
-    data[index].score = Number('' + SCORES[`${swipe}`] + Date.now());
-    data[index].priority = Number('' + SCORES[`${swipe}`] + Math.floor(Math.random() * 10 + 10));
+    data[index].score = SCORES[`${swipe}`];
+    data[index].priority = Number('' + SCORES[`${swipe}`] + Date.now());
+
+    if (data[index].days_delay > CARD_PICKER.max_days) {
+      data[index].days_delay = 0;
+      data[index].score = Number(data[index].score + 10);
+      data[index].priority = Number('' + data[index].score + Date.now());
+    }
     flickCard();
   }
 
@@ -150,15 +143,24 @@ console.table(cards)
     // TODO: -----
     // let newCard = data[Math.floor(Math.random() * 8)];
 
-    setDeck(deck.sort((a, b) => a.score - b.score))
+    setDeck(deck.sort((a, b) => a.priority - b.priority))
     console.log(deck)
     let nextCard;
-    if (twoCards[0]._id === deck[0]._id) {
-      console.table(deck[1])
-      nextCard = deck[1]
+
+    // TODO: introduce random
+    let randomIndex = (Math.floor(Math.random() * deck.length))
+    console.log(randomIndex)
+    console.log(Math.ceil(CARD_PICKER.random*deck.length))
+    if (randomIndex < Math.ceil(CARD_PICKER.random*deck.length)) {
+      nextCard = deck[randomIndex] 
     } else {
-      console.table(deck[0])
-      nextCard = deck[0]
+      if (twoCards[0]._id === deck[0]._id) {
+        console.table(deck[1])
+        nextCard = deck[1]
+      } else {
+        console.table(deck[0])
+        nextCard = deck[0]
+      }
     }
     
     // TODO: -----

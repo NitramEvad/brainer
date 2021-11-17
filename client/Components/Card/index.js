@@ -8,7 +8,7 @@ import Swipes from '../Swipes';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 import { useFonts, } from '@expo-google-fonts/inter';
-import data from '../../data.js';
+import data from '../../data/data-generic.js';
 
 // TODO: IMPLEMENT CARD FLIP ANIMATION 
 // TODO: STRUGGLING TO MAKE THIS WORK WITH FUNCTIONAL APPROACH
