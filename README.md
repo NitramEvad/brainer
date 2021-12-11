@@ -13,4 +13,16 @@ The app is at an early stage of front-end design, experimenting with a Tinder-li
 - ... card display frequency algorithm improvements
 - ... and the usual bug fixing
 
-![Card swipe in action]/1-easy.jpg
+<table>
+  <tr>
+    <td>
+      <img src="/1-easy.png" height="400px"/>
+    </td>
+    <td>
+      <img src="/2-hard.png" height="400px"/>
+    </td>
+    <td>
+      <img src="/3-redo.png" height="400px"/>
+    </td>
+  </tr>
+  </table>
