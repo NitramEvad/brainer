@@ -1,5 +1,5 @@
 <h1 align="center">Brainer</h1>
-<h3 align="center">an SRS flash-card app, modelled on well-known dating app interface.</h2>
+<h3 align="center">an SRS flash-card app, with swipe-action inspiration from a well-known dating app.</h2>
 <table align="center">
   <tr>
     <td>
