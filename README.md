@@ -1,6 +1,6 @@
 <h1 align="center">Brainer</h1>
 <h3 align="center">an SRS flash-card app, modelled on well-known dating app interface.</h2>
-<table>
+<table align="center">
   <tr>
     <td>
       <img src="/1-easy.png" height="400px"/>
